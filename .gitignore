@@ -1,0 +1,69 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+.env.example
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Build output
+dist/
+build/
+out/
+*.tsbuildinfo
+.next/
+.turbo/
+.cache/
+
+# Logs
+logs/
+*.log
+
+# OS / IDE misc
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Claude Code local settings (keep shared settings.json, ignore local overrides)
+.claude/settings.local.json

@@ -1,0 +1,41 @@
+"use client";
+
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { Compass } from "lucide-react";
+
+export function Navbar() {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4">
+      <Link href="/" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+        <Compass className="h-6 w-6" />
+        <span className="font-semibold tracking-tight">旅行规划</span>
+      </Link>
+
+      <div className="flex items-center gap-4">
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <button className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm hover:bg-white/20 hover:text-white transition-all">
+              登录
+            </button>
+          </SignInButton>
+        </Show>
+        <Show when="signed-in">
+          <Link
+            href="/app"
+            className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm hover:bg-white/20 hover:text-white transition-all"
+          >
+            工作台
+          </Link>
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "h-8 w-8 ring-1 ring-white/20",
+              },
+            }}
+          />
+        </Show>
+      </div>
+    </nav>
+  );
+}
