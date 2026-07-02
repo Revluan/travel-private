@@ -1,0 +1,722 @@
+{
+  "provinces": {
+    "110000": {
+      "name": "北京市",
+      "shortName": "北京",
+      "airports": [
+        {
+          "city": "北京",
+          "code": "PEK",
+          "name": "首都国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "北京",
+          "code": "PKX",
+          "name": "大兴国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH", "WUH", "HAK"
+          ]
+        }
+      ]
+    },
+    "310000": {
+      "name": "上海市",
+      "shortName": "上海",
+      "airports": [
+        {
+          "city": "上海",
+          "code": "PVG",
+          "name": "浦东国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH", "CSX", "HAK"
+          ]
+        },
+        {
+          "city": "上海",
+          "code": "SHA",
+          "name": "虹桥国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "WUH", "CSX", "XMN"
+          ]
+        }
+      ]
+    },
+    "120000": {
+      "name": "天津市",
+      "shortName": "天津",
+      "airports": [
+        {
+          "city": "天津",
+          "code": "TSN",
+          "name": "滨海国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "HAK", "XMN", "WUH"
+          ]
+        }
+      ]
+    },
+    "500000": {
+      "name": "重庆市",
+      "shortName": "重庆",
+      "airports": [
+        {
+          "city": "重庆",
+          "code": "CKG",
+          "name": "江北国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "KMG", "XIY", "HGH", "WUH", "HAK", "XMN"
+          ]
+        }
+      ]
+    },
+    "130000": {
+      "name": "河北省",
+      "shortName": "河北",
+      "airports": [
+        {
+          "city": "石家庄",
+          "code": "SJW",
+          "name": "正定国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "CKG", "KMG", "HAK", "XMN", "HGH", "WUH"
+          ]
+        }
+      ]
+    },
+    "140000": {
+      "name": "山西省",
+      "shortName": "山西",
+      "airports": [
+        {
+          "city": "太原",
+          "code": "TYN",
+          "name": "武宿国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "HAK", "XMN", "HGH"
+          ]
+        },
+        {
+          "city": "大同",
+          "code": "DAT",
+          "name": "云冈机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "CTU"]
+        },
+        {
+          "city": "运城",
+          "code": "YCU",
+          "name": "盐湖国际机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "CTU", "KMG"]
+        }
+      ]
+    },
+    "150000": {
+      "name": "内蒙古自治区",
+      "shortName": "内蒙古",
+      "airports": [
+        {
+          "city": "呼和浩特",
+          "code": "HET",
+          "name": "白塔国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "包头",
+          "code": "BAV",
+          "name": "东河机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "CTU"]
+        },
+        {
+          "city": "鄂尔多斯",
+          "code": "DSN",
+          "name": "伊金霍洛国际机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "XIY"]
+        }
+      ]
+    },
+    "210000": {
+      "name": "辽宁省",
+      "shortName": "辽宁",
+      "airports": [
+        {
+          "city": "沈阳",
+          "code": "SHE",
+          "name": "桃仙国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "HAK"
+          ]
+        },
+        {
+          "city": "大连",
+          "code": "DLC",
+          "name": "周水子国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH"
+          ]
+        }
+      ]
+    },
+    "220000": {
+      "name": "吉林省",
+      "shortName": "吉林",
+      "airports": [
+        {
+          "city": "长春",
+          "code": "CGQ",
+          "name": "龙嘉国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "CKG", "KMG", "HAK", "XMN"
+          ]
+        },
+        {
+          "city": "延吉",
+          "code": "YNJ",
+          "name": "朝阳川国际机场",
+          "commonConnections": ["PEK", "SHA", "PVG", "CAN"]
+        }
+      ]
+    },
+    "230000": {
+      "name": "黑龙江省",
+      "shortName": "黑龙江",
+      "airports": [
+        {
+          "city": "哈尔滨",
+          "code": "HRB",
+          "name": "太平国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "HAK"
+          ]
+        },
+        {
+          "city": "齐齐哈尔",
+          "code": "NDG",
+          "name": "三家子机场",
+          "commonConnections": ["PEK", "SHA", "PVG"]
+        },
+        {
+          "city": "牡丹江",
+          "code": "MDG",
+          "name": "海浪机场",
+          "commonConnections": ["PEK", "SHA", "PVG"]
+        }
+      ]
+    },
+    "320000": {
+      "name": "江苏省",
+      "shortName": "江苏",
+      "airports": [
+        {
+          "city": "南京",
+          "code": "NKG",
+          "name": "禄口国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "CSX", "HAK", "XMN"
+          ]
+        },
+        {
+          "city": "无锡",
+          "code": "WUX",
+          "name": "硕放机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "CSX"
+          ]
+        },
+        {
+          "city": "常州",
+          "code": "CZX",
+          "name": "奔牛国际机场",
+          "commonConnections": ["PEK", "CAN", "SZX", "CTU", "KMG", "CKG"]
+        },
+        {
+          "city": "南通",
+          "code": "NTG",
+          "name": "兴东国际机场",
+          "commonConnections": ["PEK", "CAN", "SZX", "CTU", "KMG"]
+        }
+      ]
+    },
+    "330000": {
+      "name": "浙江省",
+      "shortName": "浙江",
+      "airports": [
+        {
+          "city": "杭州",
+          "code": "HGH",
+          "name": "萧山国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "CSX", "HAK", "XMN"
+          ]
+        },
+        {
+          "city": "宁波",
+          "code": "NGB",
+          "name": "栎社国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "CSX"
+          ]
+        },
+        {
+          "city": "温州",
+          "code": "WNZ",
+          "name": "龙湾国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "WUH"
+          ]
+        }
+      ]
+    },
+    "340000": {
+      "name": "安徽省",
+      "shortName": "安徽",
+      "airports": [
+        {
+          "city": "合肥",
+          "code": "HFE",
+          "name": "新桥国际机场",
+          "commonConnections": [
+            "PEK", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "CSX"
+          ]
+        }
+      ]
+    },
+    "350000": {
+      "name": "福建省",
+      "shortName": "福建",
+      "airports": [
+        {
+          "city": "福州",
+          "code": "FOC",
+          "name": "长乐国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "厦门",
+          "code": "XMN",
+          "name": "高崎国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH", "WUH"
+          ]
+        },
+        {
+          "city": "泉州",
+          "code": "JJN",
+          "name": "晋江国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "CTU", "KMG", "CKG"
+          ]
+        }
+      ]
+    },
+    "360000": {
+      "name": "江西省",
+      "shortName": "江西",
+      "airports": [
+        {
+          "city": "南昌",
+          "code": "KHN",
+          "name": "昌北国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN"
+          ]
+        }
+      ]
+    },
+    "370000": {
+      "name": "山东省",
+      "shortName": "山东",
+      "airports": [
+        {
+          "city": "济南",
+          "code": "TNA",
+          "name": "遥墙国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "CSX"
+          ]
+        },
+        {
+          "city": "青岛",
+          "code": "TAO",
+          "name": "胶东国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HGH", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "烟台",
+          "code": "YNT",
+          "name": "蓬莱国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY"
+          ]
+        }
+      ]
+    },
+    "410000": {
+      "name": "河南省",
+      "shortName": "河南",
+      "airports": [
+        {
+          "city": "郑州",
+          "code": "CGO",
+          "name": "新郑国际机场",
+          "commonConnections": [
+            "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "CSX"
+          ]
+        }
+      ]
+    },
+    "420000": {
+      "name": "湖北省",
+      "shortName": "湖北",
+      "airports": [
+        {
+          "city": "武汉",
+          "code": "WUH",
+          "name": "天河国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN"
+          ]
+        },
+        {
+          "city": "宜昌",
+          "code": "YIH",
+          "name": "三峡国际机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "SZX", "CTU", "KMG"]
+        }
+      ]
+    },
+    "430000": {
+      "name": "湖南省",
+      "shortName": "湖南",
+      "airports": [
+        {
+          "city": "长沙",
+          "code": "CSX",
+          "name": "黄花国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "HGH"
+          ]
+        },
+        {
+          "city": "张家界",
+          "code": "DYG",
+          "name": "荷花国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY"
+          ]
+        },
+        {
+          "city": "常德",
+          "code": "CGD",
+          "name": "桃花源机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "SZX", "CTU", "KMG"]
+        },
+        {
+          "city": "衡阳",
+          "code": "HNY",
+          "name": "南岳机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "KMG", "CTU"]
+        },
+        {
+          "city": "岳阳",
+          "code": "YYA",
+          "name": "三荷机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "CTU"]
+        },
+        {
+          "city": "邵阳",
+          "code": "WGN",
+          "name": "武冈机场",
+          "commonConnections": ["PEK", "SHA", "CAN"]
+        },
+        {
+          "city": "怀化",
+          "code": "HJJ",
+          "name": "芷江机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "KMG"]
+        },
+        {
+          "city": "永州",
+          "code": "LLF",
+          "name": "零陵机场",
+          "commonConnections": ["PEK", "SHA", "CAN"]
+        }
+      ]
+    },
+    "440000": {
+      "name": "广东省",
+      "shortName": "广东",
+      "airports": [
+        {
+          "city": "广州",
+          "code": "CAN",
+          "name": "白云国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "HGH", "WUH"
+          ]
+        },
+        {
+          "city": "深圳",
+          "code": "SZX",
+          "name": "宝安国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN", "HGH", "WUH"
+          ]
+        },
+        {
+          "city": "珠海",
+          "code": "ZUH",
+          "name": "金湾机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "CTU", "KMG", "CKG"
+          ]
+        },
+        {
+          "city": "揭阳",
+          "code": "SWA",
+          "name": "潮汕国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG"
+          ]
+        }
+      ]
+    },
+    "450000": {
+      "name": "广西壮族自治区",
+      "shortName": "广西",
+      "airports": [
+        {
+          "city": "南宁",
+          "code": "NNG",
+          "name": "吴圩国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "XMN"
+          ]
+        },
+        {
+          "city": "桂林",
+          "code": "KWL",
+          "name": "两江国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY"
+          ]
+        },
+        {
+          "city": "北海",
+          "code": "BHY",
+          "name": "福成机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "SZX", "CTU", "KMG"]
+        }
+      ]
+    },
+    "460000": {
+      "name": "海南省",
+      "shortName": "海南",
+      "airports": [
+        {
+          "city": "海口",
+          "code": "HAK",
+          "name": "美兰国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "WUH", "CSX", "HGH"
+          ]
+        },
+        {
+          "city": "三亚",
+          "code": "SYX",
+          "name": "凤凰国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "WUH", "CSX", "HGH"
+          ]
+        }
+      ]
+    },
+    "510000": {
+      "name": "四川省",
+      "shortName": "四川",
+      "airports": [
+        {
+          "city": "成都",
+          "code": "CTU",
+          "name": "双流国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "KMG", "CKG", "XIY", "HAK", "XMN", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "成都",
+          "code": "TFU",
+          "name": "天府国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "KMG", "CKG", "XIY", "HAK", "WUH", "CSX"
+          ]
+        },
+        {
+          "city": "绵阳",
+          "code": "MIG",
+          "name": "南郊机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG"
+          ]
+        }
+      ]
+    },
+    "520000": {
+      "name": "贵州省",
+      "shortName": "贵州",
+      "airports": [
+        {
+          "city": "贵阳",
+          "code": "KWE",
+          "name": "龙洞堡国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "CKG", "KMG", "XIY", "HAK", "XMN", "WUH"
+          ]
+        },
+        {
+          "city": "遵义",
+          "code": "ZYI",
+          "name": "新舟机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG"
+          ]
+        }
+      ]
+    },
+    "530000": {
+      "name": "云南省",
+      "shortName": "云南",
+      "airports": [
+        {
+          "city": "昆明",
+          "code": "KMG",
+          "name": "长水国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "CKG", "XIY", "CSX", "WUH", "HAK", "XMN", "HGH"
+          ]
+        },
+        {
+          "city": "丽江",
+          "code": "LJG",
+          "name": "三义国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY"
+          ]
+        },
+        {
+          "city": "西双版纳",
+          "code": "JHG",
+          "name": "嘎洒国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "CTU", "KMG", "CKG", "XIY"
+          ]
+        },
+        {
+          "city": "大理",
+          "code": "DLU",
+          "name": "凤仪机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "CTU", "KMG", "CKG"
+          ]
+        }
+      ]
+    },
+    "540000": {
+      "name": "西藏自治区",
+      "shortName": "西藏",
+      "airports": [
+        {
+          "city": "拉萨",
+          "code": "LXA",
+          "name": "贡嘎国际机场",
+          "commonConnections": [
+            "PEK", "CTU", "CKG", "KMG", "XIY", "CAN"
+          ]
+        }
+      ]
+    },
+    "610000": {
+      "name": "陕西省",
+      "shortName": "陕西",
+      "airports": [
+        {
+          "city": "西安",
+          "code": "XIY",
+          "name": "咸阳国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "PVG", "CAN", "SZX", "CTU", "KMG", "CKG", "HAK", "CSX", "WUH", "HGH", "XMN"
+          ]
+        }
+      ]
+    },
+    "620000": {
+      "name": "甘肃省",
+      "shortName": "甘肃",
+      "airports": [
+        {
+          "city": "兰州",
+          "code": "LHW",
+          "name": "中川国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK", "WUH"
+          ]
+        },
+        {
+          "city": "敦煌",
+          "code": "DNH",
+          "name": "莫高国际机场",
+          "commonConnections": ["PEK", "SHA", "CAN", "XIY", "CTU"]
+        }
+      ]
+    },
+    "630000": {
+      "name": "青海省",
+      "shortName": "青海",
+      "airports": [
+        {
+          "city": "西宁",
+          "code": "XNN",
+          "name": "曹家堡国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY"
+          ]
+        }
+      ]
+    },
+    "640000": {
+      "name": "宁夏回族自治区",
+      "shortName": "宁夏",
+      "airports": [
+        {
+          "city": "银川",
+          "code": "INC",
+          "name": "河东国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "HAK"
+          ]
+        }
+      ]
+    },
+    "650000": {
+      "name": "新疆维吾尔自治区",
+      "shortName": "新疆",
+      "airports": [
+        {
+          "city": "乌鲁木齐",
+          "code": "URC",
+          "name": "地窝堡国际机场",
+          "commonConnections": [
+            "PEK", "SHA", "CAN", "SZX", "CTU", "KMG", "CKG", "XIY", "WUH", "HAK"
+          ]
+        }
+      ]
+    }
+  }
+}

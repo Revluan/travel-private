@@ -12,10 +12,31 @@ You are entering the **archive** phase of the OpenSpec workflow.
 - `openspec/changes/$ARGUMENTS/` must exist.
 - All tasks in `tasks.md` should be `[x]`. If any are unchecked, warn the user and stop.
 
-## What to do
+## Step 1: Verify (mandatory, automatic)
 
-1. Read `openspec/changes/$ARGUMENTS/specs/*.md`. These are the change's spec deltas.
-2. Merge each delta into the corresponding file under `openspec/specs/`:
+Before merging specs, verify every requirement is satisfied:
+
+1. Read `openspec/changes/$ARGUMENTS/specs/*.md` — every requirement and scenario.
+2. For each requirement:
+   - Find the code that implements it.
+   - Find or write the test that proves it.
+   - Run the test. Capture actual output.
+   - Mark the requirement PASS or FAIL with a one-line reason.
+3. Output a table:
+
+```
+| REQ | Scenario | Status | Evidence |
+|-----|----------|--------|----------|
+| 001 | name     | PASS   | tests/x.py::test_y passed |
+| 002 | name     | FAIL   | off-by-one in file:line |
+```
+
+4. **If any requirement FAILS:** stop. Tell the user what to fix. Do NOT proceed to Step 2.
+5. **If all PASS:** proceed to Step 2. No need to run `/verify` separately — it just happened.
+
+## Step 2: Merge and archive
+
+1. Merge each spec delta into the corresponding file under `openspec/specs/`:
    - If the capability spec doesn't exist yet, create `openspec/specs/<capability>.md`.
    - If it exists, merge new requirements and scenarios. Preserve existing requirement IDs; append new ones with the next available number.
    - If the change modifies an existing requirement, update it in place and note the change in the spec's `## History` section (create the section if missing).

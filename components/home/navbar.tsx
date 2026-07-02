@@ -13,7 +13,7 @@ export function Navbar() {
           <span className="font-semibold tracking-tight">旅行规划</span>
         </Link>
         <div className="hidden items-center gap-6 md:flex">
-          <Link href="/flights" className="text-sm text-white/60 transition-colors hover:text-white/90">
+          <Link href="/app/flights" className="text-sm text-white/60 transition-colors hover:text-white/90">
             机票搜索
           </Link>
           <Link href="/trips" className="text-sm text-white/60 transition-colors hover:text-white/90">

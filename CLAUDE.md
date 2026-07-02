@@ -8,14 +8,20 @@ This file is the harness memory. Read it first, every session.
 
 ## Workflow — OpenSpec (mandatory)
 
-Every non-trivial change follows the OpenSpec cycle. Use the slash commands in `.claude/commands/`:
+Every change follows one of two tracks. Use the slash commands in `.claude/commands/`:
+
+### Feature track（新功能、重构）
 
 1. `/explore` — read, think, no commitment. Output: a rough plan or "not worth doing."
 2. `/propose <name>` — scaffold `openspec/changes/<name>/` with `proposal.md`, `specs/`, `design.md`, `tasks.md`.
 3. `/apply <name>` — implement tasks one by one. Mark each `[x]` in `tasks.md` when done.
-4. `/archive <name>` — move the change to `openspec/changes/archive/<YYYY-MM-DD>-<name>/` and merge its specs into `openspec/specs/`.
+4. `/archive <name>` — auto-verify every requirement against specs, then move to archive and merge specs into `openspec/specs/`.
 
-**No code is written before the change folder exists.** Small fixes (typo, one-line bug) can skip this — use judgment, but when in doubt, propose.
+**No code is written before the change folder exists.**
+
+### Fix track（bug 修复、小调整）
+
+`/fix <description>` — analyze → design → execute → verify → summarize. No spec overhead, no archive. The commit and summary are the record. If the fix grows beyond 2 files or reveals a bigger problem, escalate to `/propose`.
 
 Specs are fluid: any artifact can be edited at any time. There are no rigid phase gates, but there *is* a "spec must exist before code" gate.
 
@@ -52,7 +58,7 @@ The auto-memory system lives at `~/.claude/projects/-Users-user-Desktop-study-tr
 
 ## Don't
 
-- Don't skip the spec because "it's obvious." Write the proposal anyway.
+- Don't use `/propose` for a one-line fix. Use `/fix`. Don't use `/fix` for a multi-file feature. Use `/propose`.
 - Don't run `--no-verify`, `--force`, `reset --hard`, or any destructive git op without explicit approval.
 - Don't create new files when editing an existing one would do.
 - Don't add error handling for scenarios that can't happen.

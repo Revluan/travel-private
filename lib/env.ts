@@ -19,6 +19,8 @@ const envSchema = z.object({
     .string()
     .min(1, "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL is required"),
   DEEPSEEK_API_KEY: z.string().min(1, "DEEPSEEK_API_KEY is required"),
+  AMADEUS_API_KEY: z.string().optional(),
+  AMADEUS_API_SECRET: z.string().optional(),
 });
 
 function loadEnv() {
