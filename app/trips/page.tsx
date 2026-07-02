@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { TripListItem } from "@/components/trip/trip-list-item";
-import type { TripConfig } from "@/lib/types/trip";
+import { TripCard } from "@/components/trip/trip-card";
+import type { TripConfig, TripStatus } from "@/lib/types/trip";
 
 interface TripItem {
   id: string;
@@ -42,12 +42,12 @@ export default function TripsPage() {
 
   return (
     <div className="min-h-screen pt-16 pb-20">
-      <div className="mx-auto max-w-2xl px-4">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-xl font-bold text-white">我的行程</h1>
           <Link
             href="/trips/new"
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:from-blue-500 hover:to-cyan-400"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:from-amber-500 hover:to-orange-400"
           >
             <Plus className="h-4 w-4" />
             新建
@@ -55,21 +55,28 @@ export default function TripsPage() {
         </div>
 
         {loading ? (
-          <p className="text-center text-sm text-zinc-500 py-12">加载中...</p>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="rounded-2xl border border-zinc-700/50 bg-zinc-800/60 h-64 animate-pulse"
+              />
+            ))}
+          </div>
         ) : trips.length === 0 ? (
-          <div className="py-16 text-center">
+          <div className="py-24 text-center">
             <p className="text-zinc-500 mb-4">还没有行程</p>
             <Link
               href="/trips/new"
-              className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+              className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
             >
               创建第一个行程 →
             </Link>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
             {trips.map((trip) => (
-              <TripListItem
+              <TripCard
                 key={trip.id}
                 id={trip.id}
                 title={trip.title}
@@ -79,6 +86,7 @@ export default function TripsPage() {
                 peopleCount={trip.config.peopleCount}
                 mode={trip.config.mode}
                 overview={trip.overview}
+                status={trip.status as TripStatus}
                 onDelete={handleDelete}
               />
             ))}
