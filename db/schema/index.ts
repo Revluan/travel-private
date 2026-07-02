@@ -1,1 +1,1 @@
-export {};
+export { trips, tripDays } from "./trip";

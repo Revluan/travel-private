@@ -7,10 +7,20 @@ import { Compass } from "lucide-react";
 export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4">
-      <Link href="/" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-        <Compass className="h-6 w-6" />
-        <span className="font-semibold tracking-tight">旅行规划</span>
-      </Link>
+      <div className="flex items-center gap-8">
+        <Link href="/" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+          <Compass className="h-6 w-6" />
+          <span className="font-semibold tracking-tight">旅行规划</span>
+        </Link>
+        <div className="hidden items-center gap-6 md:flex">
+          <Link href="/flights" className="text-sm text-white/60 transition-colors hover:text-white/90">
+            机票搜索
+          </Link>
+          <Link href="/trips" className="text-sm text-white/60 transition-colors hover:text-white/90">
+            行程规划
+          </Link>
+        </div>
+      </div>
 
       <div className="flex items-center gap-4">
         <Show when="signed-out">
