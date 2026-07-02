@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { TripForm } from "@/components/trip/trip-form";
-import { TripMap } from "@/components/trip/trip-map";
 import type { TripConfig, TripDestination } from "@/lib/types/trip";
+
+const TripForm = dynamic(
+  () => import("@/components/trip/trip-form").then((mod) => mod.TripForm),
+  { ssr: false },
+);
+
+const TripMap = dynamic(
+  () => import("@/components/trip/trip-map").then((mod) => mod.TripMap),
+  { ssr: false, loading: () => <div className="h-full min-h-[400px] rounded-xl border border-zinc-700 bg-zinc-800/30" /> },
+);
 
 export default function NewTripPage() {
   const router = useRouter();
