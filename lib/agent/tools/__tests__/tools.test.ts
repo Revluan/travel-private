@@ -215,7 +215,10 @@ describe("getTransport", () => {
       json: () =>
         Promise.resolve({
           status: "1",
-          route: { distance: "5000", duration: "600" },
+          count: "1",
+          route: {
+            paths: [{ distance: "5000", duration: "600" }],
+          },
         }),
     });
 
@@ -246,7 +249,10 @@ describe("getTransport", () => {
       json: () =>
         Promise.resolve({
           status: "1",
-          route: { distance: "800", duration: "480" },
+          count: "1",
+          route: {
+            paths: [{ distance: "800", duration: "480" }],
+          },
         }),
     });
 
@@ -272,7 +278,11 @@ describe("getTransport", () => {
       json: () =>
         Promise.resolve({
           status: "1",
-          route: { distance: "3000", duration: "1200" },
+          count: "1",
+          route: {
+            distance: "3000",
+            transits: [{ duration: "1200" }],
+          },
         }),
     });
 

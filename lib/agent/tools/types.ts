@@ -72,25 +72,37 @@ export interface AmapPoi {
   type?: string;
 }
 
+interface AmapStep {
+  instruction: string;
+  road?: string;
+  distance?: string;
+  duration?: string;
+}
+
+interface AmapPath {
+  distance: string;
+  duration: string;
+  steps?: AmapStep[];
+}
+
+interface AmapTransit {
+  cost?: string;
+  duration: string;
+  segments: Array<{
+    bus?: { buslines: Array<{ name: string; type: string }> };
+    walking?: { distance: string; duration: string };
+    enter_name?: string;
+    exit_name?: string;
+  }>;
+}
+
 export interface AmapDirectionResponse {
   status: string;
+  info: string;
+  count: string;
   route: {
-    distance: string;
-    duration: string;
-    taxi_cost?: string;
-    steps?: Array<{
-      instruction: string;
-      road?: string;
-      distance?: string;
-      duration?: string;
-    }>;
-    transits?: Array<{
-      segments: Array<{
-        bus?: { buslines: Array<{ name: string; type: string }> };
-        walking?: { distance: string; duration: string };
-        enter_name?: string;
-        exit_name?: string;
-      }>;
-    }>;
+    distance?: string;
+    paths?: AmapPath[];
+    transits?: AmapTransit[];
   };
 }

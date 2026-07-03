@@ -12,7 +12,8 @@ const BASE_URLS: Record<string, string> = {
 };
 
 function mapSteps(data: AmapDirectionResponse): TransportStep[] {
-  const steps = data.route.steps ?? [];
+  const path = data.route.paths?.[0];
+  const steps = path?.steps ?? [];
   return steps.map((s) => ({
     instruction: s.instruction ?? "",
     road: s.road,
@@ -47,29 +48,53 @@ export const getTransport = tool({
 
     if (mode === "transit" && city) {
       url.searchParams.set("city", city);
+      url.searchParams.set("cityd", city);
+    } else {
+      url.searchParams.set("extensions", "all");
     }
 
     await rateLimit();
     const res = await fetch(url.toString());
     const data: AmapDirectionResponse = await res.json();
+    console.log("[getTransport] request:", url.toString().replace(getAmapKey(), "***"));
+    console.log("[getTransport] response:", JSON.stringify(data));
 
     if (data.status !== "1") {
       return {
         success: false,
-        error: `高德路径规划失败: ${(data as unknown as Record<string, unknown>).info ?? "未知错误"}`,
+        error: `高德路径规划失败: ${data.info ?? "未知错误"}`,
       };
     }
 
-    const distance = Number(data.route.distance ?? 0);
-    const duration = Number(data.route.duration ?? 0);
+    if (data.count === "0") {
+      return {
+        success: false,
+        error: "高德路径规划未找到路线，可能是坐标超出中国范围或两地距离过远",
+      };
+    }
+
+    let distance: number;
+    let duration: number;
+    let taxiEstimate: string | undefined;
+
+    if (mode === "transit") {
+      distance = Number(data.route.distance ?? 0);
+      duration = Number(data.route.transits?.[0]?.duration ?? 0);
+      taxiEstimate = data.route.transits?.[0]?.cost
+        ? `约${data.route.transits[0].cost}元`
+        : undefined;
+    } else {
+      const path = data.route.paths?.[0];
+      distance = Number(path?.distance ?? 0);
+      duration = Number(path?.duration ?? 0);
+    }
+
     const result: TransportResult = {
       distance,
       duration,
       mode,
-      steps: mapSteps(data),
-      taxiEstimate: data.route.taxi_cost
-        ? `约${data.route.taxi_cost}元`
-        : undefined,
+      steps: mode === "transit" ? [] : mapSteps(data),
+      taxiEstimate,
     };
 
     return {
