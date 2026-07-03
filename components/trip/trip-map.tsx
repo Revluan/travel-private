@@ -24,9 +24,10 @@ interface TripMapProps {
   lng?: number;
   routePoints?: RoutePoint[];
   highlightPoint?: HighlightPoint;
+  theme?: string;
 }
 
-export function TripMap({ lat, lng, routePoints, highlightPoint }: TripMapProps) {
+export function TripMap({ lat, lng, routePoints, highlightPoint, theme }: TripMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);
@@ -134,6 +135,13 @@ export function TripMap({ lat, lng, routePoints, highlightPoint }: TripMapProps)
 
     map.setFitView(null, false, [60, 60, 60, 60]);
   }, [routePoints]);
+
+  // Theme-based map style
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const style = theme === "light" ? "amap://styles/normal" : "amap://styles/darkblue";
+    mapRef.current.setMapStyle(style);
+  }, [theme]);
 
   // Single highlight point (individual activity click in preview)
   useEffect(() => {

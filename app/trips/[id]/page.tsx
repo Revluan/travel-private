@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ArrowLeft } from "lucide-react";
+import { useTheme } from "next-themes";
 import { AgentStepCard } from "@/components/trip/agent-step-card";
 import type { TripConfig, PlannedActivity } from "@/lib/types/trip";
 import type { RoutePoint, HighlightPoint } from "@/components/trip/trip-map";
@@ -40,6 +41,7 @@ export default function TripDetailPage() {
   const [routePoints, setRoutePoints] = useState<RoutePoint[]>([]);
   const [selectedDayNumber, setSelectedDayNumber] = useState<number | null>(null);
   const [highlightPoint, setHighlightPoint] = useState<HighlightPoint | undefined>(undefined);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     fetch(`/api/trips/${id}`)
@@ -191,6 +193,7 @@ export default function TripDetailPage() {
           lng={config?.destination.lng}
           routePoints={routePoints.length > 0 ? routePoints : undefined}
           highlightPoint={highlightPoint}
+          theme={resolvedTheme}
         />
       </div>
     </div>

@@ -46,15 +46,25 @@
 - **THEN** Hero 区域随页面正常滚动
 - **AND** 无任何视差、缩放、淡入淡出等动画效果
 
-### REQ-003: 全局启用深色主题
+### REQ-003: 支持深浅色主题切换
 
-系统 SHALL 在 `<html>` 元素上设置 `.dark` 类，使整个页面默认使用深色配色方案。
+系统 SHALL 默认使用深色主题，并在导航栏提供主题切换按钮，允许用户在深浅色之间切换，选择持久化到 localStorage。
 
-#### Scenario: 页面以深色模式渲染
-- **WHEN** 任意用户访问 `/`
+#### Scenario: 页面以深色模式渲染（默认）
+- **WHEN** 用户首次访问且系统偏好为深色或用户上次选择了深色主题
 - **THEN** 页面背景为深色
 - **AND** 文字为浅色
 - **AND** 所有 UI 组件使用深色主题样式
+
+#### Scenario: 页面以浅色模式渲染
+- **WHEN** 用户首次访问且系统偏好为浅色或用户点击切换至浅色主题
+- **THEN** 页面背景为浅色
+- **AND** 文字为深色
+- **AND** 所有 UI 组件使用浅色主题样式
+
+#### Scenario: 主题选择持久化
+- **WHEN** 用户切换主题后关闭网站并重新访问
+- **THEN** 页面使用用户上次选择的主题渲染
 
 ### REQ-004: 首页提供注册/登录引导
 
@@ -84,3 +94,4 @@
 
 - 2026-07-01 — initial spec (from landing-page change)
 - 2026-07-02 — simplified to static hero layout; removed scroll animations; added nav tabs (from simplify-homepage change)
+- 2026-07-03 — REQ-003 MODIFIED: dark-only → theme toggle with system preference and persistence (from theme-toggle-and-collapsible-cards change)

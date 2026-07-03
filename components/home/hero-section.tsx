@@ -29,7 +29,7 @@ export function HeroSection() {
           </Show>
           <Show when="signed-in">
             <Link
-              href="/app"
+              href="/trips"
               className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 text-base font-semibold text-black shadow-lg shadow-amber-500/25 transition-colors hover:bg-amber-400"
             >
               进入工作台

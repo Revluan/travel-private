@@ -175,9 +175,38 @@
 - **THEN** 页面左上角提供 "← 我的行程" 返回链接，跳转到 `/trips`
 - **AND** 不提供返回 `/trips/new` 或编辑/保存按钮
 
+### REQ-010: 日卡片可折叠/展开
+
+系统 SHALL 在行程详情页的每日行程卡片上提供折叠/展开交互：点击卡片标题区域（日期、主题行）切换折叠状态。
+
+#### Scenario: 日卡片默认展开
+- **WHEN** 用户进入行程详情页
+- **THEN** 所有日卡片的活动列表默认展开可见
+
+#### Scenario: 用户折叠某天的卡片
+- **WHEN** 用户点击已展开的日卡片标题区域
+- **THEN** 该卡片的活动列表收起隐藏
+- **AND** 标题区域显示展开指示图标（▶）
+- **AND** 卡片高度缩小至仅显示标题行
+
+#### Scenario: 用户展开已折叠的卡片
+- **WHEN** 用户点击已折叠的日卡片标题区域
+- **THEN** 该卡片的活动列表展开显示
+- **AND** 标题区域显示折叠指示图标（▼）
+- **AND** 卡片高度恢复至完整内容
+
+#### Scenario: 折叠/展开仅影响当前卡片
+- **WHEN** 用户折叠某天的卡片
+- **THEN** 其他天的卡片状态不受影响
+
+#### Scenario: 多个卡片可同时折叠
+- **WHEN** 用户依次折叠多天的卡片
+- **THEN** 所有被点击的卡片均进入折叠状态
+
 ## History
 
 - 2026-07-02 — initial spec (from trip-planner change)
 - 2026-07-02 — REQ-008 updated: card list → card gallery grid with Maillard color scheme (from trips-card-redesign change)
 - 2026-07-03 — REQ-005 MODIFIED, REQ-006/REQ-007 REMOVED, REQ-009 MODIFIED: detail page from editor to read-only dual-panel with map (from redesign-trip-detail change)
 - 2026-07-03 — REQ-004 MODIFIED: dual AI generation paths (agent SSE + legacy) (from fix-agent-planning-flow change)
+- 2026-07-03 — REQ-010 ADDED: collapsible/expandable day cards (from theme-toggle-and-collapsible-cards change)
