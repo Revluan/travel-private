@@ -60,6 +60,13 @@ export interface PlannedActivity {
   description: string;
   location: string;
   type: ActivityType;
+  lng?: number;
+  lat?: number;
+  transportTo?: {
+    mode: string;
+    duration: string;
+    distance: string;
+  };
 }
 
 export interface GeneratedDay {

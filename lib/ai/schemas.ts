@@ -7,6 +7,16 @@ export const plannedActivitySchema = z.object({
   description: z.string().describe("活动描述，1-2 句话"),
   location: z.string().describe("活动地点名称"),
   type: z.enum(ACTIVITY_TYPES).describe("活动类型"),
+  lng: z.number().optional().describe("地点经度（如有）"),
+  lat: z.number().optional().describe("地点纬度（如有）"),
+  transportTo: z
+    .object({
+      mode: z.string().describe("交通方式"),
+      duration: z.string().describe("耗时，如 '15分钟'"),
+      distance: z.string().describe("距离，如 '2.3公里'"),
+    })
+    .optional()
+    .describe("从上一个地点到这里的交通信息"),
 });
 
 export const generatedDaySchema = z.object({
