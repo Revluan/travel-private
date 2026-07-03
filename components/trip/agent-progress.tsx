@@ -211,6 +211,7 @@ export function AgentProgress({ config, onComplete, onCancel, onActivityClick }:
                   totalDays: group.totalDays,
                 } satisfies DayGeneratedEvent}
                 onActivityClick={onActivityClick}
+                city={config.destination.name}
               />
             ) : (
               <div className="flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-800/40 p-3 ml-2">

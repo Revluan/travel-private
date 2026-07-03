@@ -60,23 +60,35 @@
 
 ### REQ-004: AI 生成行程并自动入库
 
-系统 SHALL 在用户点击 "AI 规划行程" 后，将配置数据发送到后端，后端调用 DeepSeek 生成结构化行程，自动写入数据库，返回完整的 Trip 和 TripDay 数据。
+系统 SHALL 提供两种 AI 生成路径（agent 和原有非 agent），用户通过 `/trips/new` 页面发起：
 
-#### Scenario: AI 生成成功
+**Agent 路径** (`POST /api/trips/generate/agent`)：LLM 先规划全量行程 → 高德 POI 关键词搜索获取坐标 → 高德路径规划计算交通，流式返回进度，用户确认后保存入库。
 
-- **WHEN** 用户填写完整配置并点击 "AI 规划行程"
+**非 Agent 路径** (`POST /api/trips/generate`)：单次 DeepSeek 调用生成结构化行程，自动入库后跳转详情页。行为保持不变。
+
+#### Scenario: Agent 路径生成成功
+
+- **WHEN** 用户填写完整配置并点击 "AI Agent 规划"
+- **THEN** 系统 POST 到 `/api/trips/generate/agent`，携带 TripConfig
+- **AND** 前端通过 SSE 展示三阶段进度（planning → geocoding → routing）
+- **AND** 完成后展示行程预览，包含含坐标的真实地点数据
+- **AND** 用户可点击"保存"将行程写入数据库，或点击"重新生成"
+
+#### Scenario: 非 Agent 路径生成成功（行为不变）
+
+- **WHEN** 用户选择原有路径并点击 "AI 规划行程"
 - **THEN** 系统 POST 到 `/api/trips/generate`，携带 TripConfig
 - **AND** 按钮显示加载状态，不可重复点击
 - **AND** 后端调用 DeepSeek 返回结构化行程 JSON
 - **AND** Trip 和 TripDay 数据写入数据库，status 为 `generated`
 - **AND** 前端收到响应后跳转到 `/trips/[id]`
 
-#### Scenario: AI 生成失败
+#### Scenario: Agent 路径生成失败
 
-- **WHEN** DeepSeek 调用失败或返回数据不符合 schema
-- **THEN** 系统在配置页面显示错误提示
+- **WHEN** Agent 路径的 LLM 调用或高德 API 批量查询失败
+- **THEN** 系统在页面上显示错误提示和"重试"按钮
 - **AND** 不创建数据库记录
-- **AND** 用户可重新点击按钮尝试
+- **AND** 用户可重新点击"重试"或返回修改参数
 
 #### Scenario: 必填字段缺失
 
@@ -86,60 +98,40 @@
 
 ### REQ-005: 日程详情页展示总览和每日行程
 
-系统 SHALL 在 `/trips/[id]` 页面展示行程总览卡片和按天排列的行程卡片，所有字段可编辑。
+系统 SHALL 在 `/trips/[id]` 页面以左侧行程+右侧地图的双栏布局展示行程，所有内容为只读。
 
-#### Scenario: 用户查看 AI 生成的行程
+#### Scenario: 用户查看已保存的行程
 
-- **WHEN** AI 生成完成后跳转到 `/trips/[id]`
-- **THEN** 页面顶部显示总览卡片：日期范围、目的地、预算、人数、模式、概述文本
-- **AND** 总览下方按天展示每日行程卡片，每天包含日期、主题和活动列表
-- **AND** 每天的活动列表按时间排序
+- **WHEN** 用户访问 `/trips/[id]`
+- **THEN** 页面显示为双栏布局：左侧 560px 固定宽度面板展示行程内容，右侧弹性宽度面板展示高德地图
+- **AND** 左侧面板顶部显示返回链接 "← 我的行程"
+- **AND** 左侧面板显示概览卡片：目的地名称、天数、行程概述文本（只读）
+- **AND** 概览卡片下方显示 Day tabs 按钮组，每个按钮标注 "Day N"
+- **AND** Day tabs 下方按天展示每日行程卡片，每天包含日期、主题和活动列表
+- **AND** 每个活动显示时间、类型图标、标题、地点、描述
+- **AND** 当活动包含 highlights 字段时，显示地点特点描述
+- **AND** 当活动包含 tags 字段时，以标签 badge 形式展示关键词
+- **AND** 当活动包含 recommendation 字段时，以引号样式展示推荐语
+- **AND** 所有内容均为只读展示，无可编辑输入框
 
-#### Scenario: 用户编辑总览概述
+#### Scenario: 行程数据包含坐标时显示地图路线
 
-- **WHEN** 用户在总览卡片中修改概述文本
-- **THEN** 概述文本变为可编辑状态，用户可自由修改
+- **WHEN** 行程的活动数据包含有效的 `lng` 和 `lat` 坐标
+- **THEN** 右侧地图显示目的地标记
+- **AND** 用户点击某个 Day tab 后，地图上显示该天的路线折线和编号标记
 
-### REQ-006: 每日行程内的活动可增删改
+#### Scenario: 行程数据不含坐标时地图仅显示目的地
 
-系统 SHALL 支持在每日行程卡片内编辑活动、删除活动和添加新活动。
+- **WHEN** 行程的活动数据不包含坐标（旧数据）
+- **THEN** 右侧地图仅显示目的地城市标记
+- **AND** Day tabs 点击不触发路线绘制
 
-#### Scenario: 编辑活动内容
+#### Scenario: 用户点击单个活动
 
-- **WHEN** 用户修改某个活动的时间、标题、描述、地点或类型字段
-- **THEN** 对应字段的值更新为用户输入的内容
-
-#### Scenario: 删除活动
-
-- **WHEN** 用户点击某个活动的删除按钮
-- **THEN** 该活动从当天活动列表中移除
-
-#### Scenario: 添加新活动
-
-- **WHEN** 用户点击某天卡片底部的 "添加活动" 按钮
-- **THEN** 该天活动列表末尾追加一条空白活动行，时间和类型有默认值
-
-#### Scenario: 新增一天
-
-- **WHEN** 用户点击页面底部的 "新增一天" 按钮
-- **THEN** 行程末尾追加一个新的 Day 卡片，dayNumber 为当前最大 dayNumber + 1
-
-### REQ-007: 编辑保存采用整体覆盖
-
-系统 SHALL 在用户点击保存时，将当前所有 TripDay 数据整体提交到 PUT `/api/trips/[id]`，后端删除该行程已有的 days 后批量插入新的。
-
-#### Scenario: 用户保存编辑后的行程
-
-- **WHEN** 用户在日程详情页点击保存按钮
-- **THEN** 系统 PUT 到 `/api/trips/[id]`，携带完整的 overview 和 days 数组
-- **AND** 后端删除该 trip 的所有已有 trip_days，批量 insert 新的
-- **AND** Trip 的 status 更新为 `saved`
-- **AND** 保存成功后跳转到 `/trips` 列表页
-
-#### Scenario: 编辑后未保存就离开
-
-- **WHEN** 用户在日程详情页修改了内容但没有点击保存，直接关闭页面或导航离开
-- **THEN** 修改不生效，数据库中仍为 AI 生成时的原始数据（status 保持 `generated`）
+- **WHEN** 用户点击某个活动的行（该活动有坐标）
+- **THEN** 地图中心移动到该活动位置
+- **AND** 该活动位置显示琥珀色星标高亮标记和名称标签
+- **AND** 再次点击同一活动取消高亮
 
 ### REQ-008: 行程列表页展示已保存行程
 
@@ -175,15 +167,17 @@
 
 ### REQ-009: 日程详情页不可返回配置页
 
-系统 SHALL 确保 `/trips/[id]` 页面不提供返回 `/trips/new` 的导航。
+系统 SHALL 确保 `/trips/[id]` 页面提供返回行程列表的导航。
 
 #### Scenario: 用户在日程详情页的导航选项
 
 - **WHEN** 用户在 `/trips/[id]` 页面
-- **THEN** 导航栏或页面上提供返回 `/trips`（我的行程列表）的入口
-- **AND** 不提供返回 `/trips/new` 或重新生成当前行程的入口
+- **THEN** 页面左上角提供 "← 我的行程" 返回链接，跳转到 `/trips`
+- **AND** 不提供返回 `/trips/new` 或编辑/保存按钮
 
 ## History
 
 - 2026-07-02 — initial spec (from trip-planner change)
 - 2026-07-02 — REQ-008 updated: card list → card gallery grid with Maillard color scheme (from trips-card-redesign change)
+- 2026-07-03 — REQ-005 MODIFIED, REQ-006/REQ-007 REMOVED, REQ-009 MODIFIED: detail page from editor to read-only dual-panel with map (from redesign-trip-detail change)
+- 2026-07-03 — REQ-004 MODIFIED: dual AI generation paths (agent SSE + legacy) (from fix-agent-planning-flow change)

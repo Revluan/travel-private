@@ -214,6 +214,7 @@ export default function NewTripPage() {
                           setSelectedDayNumber(null);
                         }
                       }}
+                      city={state.config.destination.name}
                     />
                   );
                 })}

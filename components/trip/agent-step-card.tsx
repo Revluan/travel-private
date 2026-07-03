@@ -1,7 +1,10 @@
 "use client";
 
-import { Check, Search, ArrowLeftRight, Wrench, Loader2, AlertCircle, MapPin, Sparkles, Navigation } from "lucide-react";
+import { useState } from "react";
+import { Check, Search, ArrowLeftRight, Wrench, Loader2, AlertCircle, MapPin, Sparkles, Navigation, Info } from "lucide-react";
 import type { AgentEvent } from "@/lib/agent/stream-types";
+import type { PlannedActivity } from "@/lib/types/trip";
+import { PlaceDetailDialog } from "./place-detail-dialog";
 
 function getToolIcon(tool: string) {
   if (tool.includes("Attraction") || tool.includes("attraction")) return Search;
@@ -29,7 +32,13 @@ function getTransportEmoji(mode: string): string {
   return "🚗";
 }
 
-export function AgentStepCard({ event, toolEvents, onActivityClick }: Props) {
+interface CardContext {
+  toolEvents?: AgentEvent[];
+  onActivityClick?: (lng: number, lat: number, name?: string) => void;
+  setDetailActivity: (v: { activity: PlannedActivity } | null) => void;
+}
+
+function renderCard(event: AgentEvent, ctx: CardContext) {
   switch (event.type) {
     case "phase": {
       return (
@@ -124,8 +133,8 @@ export function AgentStepCard({ event, toolEvents, onActivityClick }: Props) {
                       : "bg-zinc-800/30"
                   }`}
                   onClick={() => {
-                    if (a.lng != null && a.lat != null && onActivityClick) {
-                      onActivityClick(a.lng, a.lat, a.title);
+                    if (a.lng != null && a.lat != null && ctx.onActivityClick) {
+                      ctx.onActivityClick(a.lng, a.lat, a.title);
                     }
                   }}
                 >
@@ -145,7 +154,40 @@ export function AgentStepCard({ event, toolEvents, onActivityClick }: Props) {
                       {a.description && (
                         <p className="text-[10px] text-zinc-600 mt-0.5 line-clamp-2">{a.description}</p>
                       )}
+                      {a.highlights && (
+                        <p className="text-[10px] text-zinc-500 mt-0.5 line-clamp-2">{a.highlights}</p>
+                      )}
+                      {a.tags && a.tags.length > 0 && (
+                        <div className="flex gap-1 mt-1 flex-wrap">
+                          {a.tags.map((tag, ti) => (
+                            <span
+                              key={ti}
+                              className="inline-block rounded-md border border-zinc-700/50 bg-zinc-800/50 px-1.5 py-0.5 text-[9px] text-zinc-400"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {a.recommendation && (
+                        <p className="text-[10px] text-emerald-500/80 mt-0.5 italic">
+                          "{a.recommendation.length > 20 ? a.recommendation.slice(0, 20) + "…" : a.recommendation}"
+                        </p>
+                      )}
                     </div>
+
+                    {/* Detail button */}
+                    {a.lng != null && a.lat != null && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ctx.setDetailActivity({ activity: a });
+                        }}
+                        className="shrink-0 rounded-md border border-zinc-700/50 bg-zinc-800/60 px-1.5 py-0.5 text-[10px] text-zinc-400 hover:border-zinc-600 hover:text-zinc-200 transition-colors"
+                      >
+                        <Info className="h-3 w-3" />
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -172,8 +214,29 @@ export function AgentStepCard({ event, toolEvents, onActivityClick }: Props) {
   }
 }
 
+export function AgentStepCard({ event, toolEvents, onActivityClick, city }: Props) {
+  const [detailActivity, setDetailActivity] = useState<{
+    activity: PlannedActivity;
+  } | null>(null);
+
+  return (
+    <>
+      {renderCard(event, { toolEvents, onActivityClick, setDetailActivity })}
+      {detailActivity && (
+        <PlaceDetailDialog
+          activity={detailActivity.activity}
+          city={city}
+          open={true}
+          onClose={() => setDetailActivity(null)}
+        />
+      )}
+    </>
+  );
+}
+
 interface Props {
   event: AgentEvent;
   toolEvents?: AgentEvent[];
   onActivityClick?: (lng: number, lat: number, name?: string) => void;
+  city?: string;
 }

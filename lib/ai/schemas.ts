@@ -9,6 +9,9 @@ export const plannedActivitySchema = z.object({
   type: z.enum(ACTIVITY_TYPES).describe("活动类型"),
   lng: z.number().optional().describe("地点经度（如有）"),
   lat: z.number().optional().describe("地点纬度（如有）"),
+  highlights: z.string().optional().describe("地点特点描述，1-2 句话说明此地亮点"),
+  tags: z.array(z.string()).optional().describe("3 个关键词标签"),
+  recommendation: z.string().optional().describe("一句推荐语，不超过 20 字"),
   transportTo: z
     .object({
       mode: z.string().describe("交通方式"),

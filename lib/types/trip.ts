@@ -62,6 +62,9 @@ export interface PlannedActivity {
   type: ActivityType;
   lng?: number;
   lat?: number;
+  highlights?: string;
+  tags?: string[];
+  recommendation?: string;
   transportTo?: {
     mode: string;
     duration: string;

@@ -22,6 +22,15 @@ const saveSchema = z.object({
           description: z.string(),
           location: z.string(),
           type: z.enum(ACTIVITY_TYPES),
+          lng: z.number().optional(),
+          lat: z.number().optional(),
+          transportTo: z
+            .object({
+              mode: z.string(),
+              duration: z.string(),
+              distance: z.string(),
+            })
+            .optional(),
         }),
       ),
     }),

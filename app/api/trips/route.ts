@@ -51,6 +51,18 @@ const saveTripSchema = z.object({
             description: z.string(),
             location: z.string(),
             type: z.enum(ACTIVITY_TYPES),
+            lng: z.number().optional(),
+            lat: z.number().optional(),
+            highlights: z.string().optional(),
+            tags: z.array(z.string()).optional(),
+            recommendation: z.string().optional(),
+            transportTo: z
+              .object({
+                mode: z.string(),
+                duration: z.string(),
+                distance: z.string(),
+              })
+              .optional(),
           }),
         ),
       }),

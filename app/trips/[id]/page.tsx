@@ -1,31 +1,33 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Plus, Save } from "lucide-react";
-import { TripOverview } from "@/components/trip/trip-overview";
-import { DayCard } from "@/components/trip/day-card";
-import type { TripConfig, PlannedActivity, ActivityType } from "@/lib/types/trip";
+import dynamic from "next/dynamic";
+import { ArrowLeft } from "lucide-react";
+import { AgentStepCard } from "@/components/trip/agent-step-card";
+import type { TripConfig, PlannedActivity } from "@/lib/types/trip";
+import type { RoutePoint, HighlightPoint } from "@/components/trip/trip-map";
+import type { DayGeneratedEvent } from "@/lib/agent/stream-types";
+
+const TripMap = dynamic(
+  () => import("@/components/trip/trip-map").then((mod) => mod.TripMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-full min-h-[400px] rounded-xl border border-zinc-700 bg-zinc-800/30" />
+    ),
+  },
+);
 
 interface DayData {
-  id?: string;
   dayNumber: number;
   date: string;
   theme: string;
   activities: PlannedActivity[];
 }
 
-const defaultActivity = (): PlannedActivity => ({
-  time: "09:00",
-  title: "",
-  description: "",
-  location: "",
-  type: "attraction" as ActivityType,
-});
-
 export default function TripDetailPage() {
-  const router = useRouter();
   const params = useParams();
   const id = params.id as string;
 
@@ -33,8 +35,11 @@ export default function TripDetailPage() {
   const [overview, setOverview] = useState("");
   const [days, setDays] = useState<DayData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const [routePoints, setRoutePoints] = useState<RoutePoint[]>([]);
+  const [selectedDayNumber, setSelectedDayNumber] = useState<number | null>(null);
+  const [highlightPoint, setHighlightPoint] = useState<HighlightPoint | undefined>(undefined);
 
   useEffect(() => {
     fetch(`/api/trips/${id}`)
@@ -47,8 +52,7 @@ export default function TripDetailPage() {
         setOverview(data.overview ?? "");
         setDays(
           (data.days ?? []).map(
-            (d: { id: string; dayNumber: number; date: string; theme: string; activities: PlannedActivity[] }) => ({
-              id: d.id,
+            (d: { dayNumber: number; date: string; theme: string; activities: PlannedActivity[] }) => ({
               dayNumber: d.dayNumber,
               date: d.date,
               theme: d.theme,
@@ -61,50 +65,36 @@ export default function TripDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const updateDay = useCallback((index: number, updated: DayData) => {
-    setDays((prev) => {
-      const next = [...prev];
-      next[index] = updated;
-      return next;
-    });
-  }, []);
-
-  const addDay = () => {
-    const maxNumber = days.reduce((max, d) => Math.max(max, d.dayNumber), 0);
-    setDays((prev) => [
-      ...prev,
-      {
-        dayNumber: maxNumber + 1,
-        date: "",
-        theme: "",
-        activities: [defaultActivity()],
-      },
-    ]);
-  };
-
-  const handleSave = async () => {
-    setSaving(true);
-    setError("");
-
-    try {
-      const res = await fetch(`/api/trips/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ overview, days }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error ?? "保存失败");
+  const handleDayTabClick = useCallback(
+    (dayNumber: number) => {
+      if (selectedDayNumber === dayNumber) {
+        setSelectedDayNumber(null);
+        setHighlightPoint(undefined);
+        setRoutePoints([]);
+      } else {
+        setSelectedDayNumber(dayNumber);
+        setHighlightPoint(undefined);
+        const day = days.find((d) => d.dayNumber === dayNumber);
+        if (day) {
+          const points: RoutePoint[] = day.activities
+            .filter((a) => a.lng != null && a.lat != null)
+            .map((a) => ({ lng: a.lng!, lat: a.lat!, name: a.title }));
+          setRoutePoints(points);
+        }
       }
+    },
+    [days, selectedDayNumber],
+  );
 
-      router.push("/trips");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "保存失败，请重试");
-    } finally {
-      setSaving(false);
-    }
-  };
+  const handleActivityClick = useCallback((lng: number, lat: number, name?: string) => {
+    setHighlightPoint((prev) =>
+      prev?.lng === lng && prev?.lat === lat
+        ? undefined
+        : { lng, lat, name },
+    );
+    setRoutePoints([]);
+    setSelectedDayNumber(null);
+  }, []);
 
   if (loading) {
     return (
@@ -128,60 +118,80 @@ export default function TripDetailPage() {
   }
 
   return (
-    <div className="min-h-screen pt-16 pb-20">
-      <div className="mx-auto max-w-2xl px-4">
-        <div className="mb-6 flex items-center justify-between">
-          <Link
-            href="/trips"
-            className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-300 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            我的行程
-          </Link>
-
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:from-blue-500 hover:to-cyan-400 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            {saving ? "保存中..." : "保存行程"}
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
-            {error}
-          </div>
-        )}
+    <div className="flex h-screen pt-16">
+      {/* Left panel: itinerary */}
+      <div className="w-[560px] shrink-0 overflow-y-auto border-r border-zinc-800 p-6">
+        <Link
+          href="/trips"
+          className="mb-4 inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-300 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          我的行程
+        </Link>
 
         {config && (
-          <div className="mb-6">
-            <TripOverview
-              config={config}
-              overview={overview}
-              onChangeOverview={setOverview}
-            />
+          <div className="space-y-4">
+            {/* Overview card */}
+            <div className="rounded-lg border border-emerald-700/50 bg-emerald-800/20 p-4">
+              <h2 className="text-sm font-semibold text-emerald-300">
+                {config.destination.name} · {config.days}天
+              </h2>
+              <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{overview}</p>
+            </div>
+
+            {/* Day tabs */}
+            <div className="flex gap-1.5 flex-wrap">
+              {days.map((day) => (
+                <button
+                  key={day.dayNumber}
+                  onClick={() => handleDayTabClick(day.dayNumber)}
+                  className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
+                    selectedDayNumber === day.dayNumber
+                      ? "border-blue-500 bg-blue-500/10 text-blue-400"
+                      : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                  }`}
+                >
+                  Day {day.dayNumber}
+                </button>
+              ))}
+            </div>
+
+            {/* Day cards */}
+            <div className="space-y-2">
+              {days.map((day) => {
+                const dayEvent: DayGeneratedEvent = {
+                  type: "day-generated",
+                  day: {
+                    dayNumber: day.dayNumber,
+                    date: day.date,
+                    theme: day.theme,
+                    activities: day.activities,
+                  },
+                  dayNumber: day.dayNumber,
+                  totalDays: days.length,
+                };
+                return (
+                  <AgentStepCard
+                    key={day.dayNumber}
+                    event={dayEvent}
+                    onActivityClick={handleActivityClick}
+                    city={config?.destination.name}
+                  />
+                );
+              })}
+            </div>
           </div>
         )}
+      </div>
 
-        <div className="space-y-4">
-          {days.map((day, index) => (
-            <DayCard
-              key={index}
-              day={day}
-              onChange={(updated) => updateDay(index, updated)}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={addDay}
-          className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-600 py-4 text-sm text-zinc-500 hover:border-zinc-500 hover:text-zinc-400 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          新增一天
-        </button>
+      {/* Right panel: map */}
+      <div className="flex-1 p-4">
+        <TripMap
+          lat={config?.destination.lat}
+          lng={config?.destination.lng}
+          routePoints={routePoints.length > 0 ? routePoints : undefined}
+          highlightPoint={highlightPoint}
+        />
       </div>
     </div>
   );
